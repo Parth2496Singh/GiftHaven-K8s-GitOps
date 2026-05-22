@@ -1,7 +1,7 @@
 aiDeployment:
   myapp:
     image:
-      repository: parthsingh2496/giftastic-wishlist-wonder-gift-ai
+      repository: parthsingh2496/gifthaven
       tag: latest
     resources:
       limits:
