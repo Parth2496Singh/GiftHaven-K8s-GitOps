@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gifthaven-chart.fullname" . }}-ai-deployment
+  labels:
+  {{- include "gifthaven-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.aiDeployment.replicas }}
+  selector:
+    matchLabels:
+      app: gift-ai
+    {{- include "gifthaven-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: gift-ai
+      {{- include "gifthaven-chart.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.aiDeployment.myapp.image.repository }}:{{ .Values.aiDeployment.myapp.image.tag
+          | default .Chart.AppVersion }}
+        name: myapp
+        ports:
+        - containerPort: 5173
+        resources: {{- toYaml .Values.aiDeployment.myapp.resources | nindent 10 }}
+      nodeSelector: {{- toYaml .Values.aiDeployment.nodeSelector | nindent 8 }}
+      serviceAccountName: {{ include "gifthaven-chart.serviceAccountName" . }}
+      tolerations: {{- toYaml .Values.aiDeployment.tolerations | nindent 8 }}
+      topologySpreadConstraints: {{- toYaml .Values.aiDeployment.topologySpreadConstraints
+        | nindent 8 }}

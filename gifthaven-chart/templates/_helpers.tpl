@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "gifthaven-helm.name" -}}
+{{- define "gifthaven-chart.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "gifthaven-helm.fullname" -}}
+{{- define "gifthaven-chart.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "gifthaven-helm.chart" -}}
+{{- define "gifthaven-chart.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "gifthaven-helm.labels" -}}
-helm.sh/chart: {{ include "gifthaven-helm.chart" . }}
-{{ include "gifthaven-helm.selectorLabels" . }}
+{{- define "gifthaven-chart.labels" -}}
+helm.sh/chart: {{ include "gifthaven-chart.chart" . }}
+{{ include "gifthaven-chart.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,18 +45,21 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "gifthaven-helm.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "gifthaven-helm.name" . }}
+{{- define "gifthaven-chart.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "gifthaven-chart.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "gifthaven-helm.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "gifthaven-helm.fullname" .) .Values.serviceAccount.name }}
+{{- define "gifthaven-chart.serviceAccountName" -}}
+{{- $default := (include "gifthaven-chart.fullname" .) }}
+{{- with .Values.serviceAccount }}
+{{- if .create }}
+{{- default $default .name }}
 {{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- default "default" .name }}
+{{- end }}
 {{- end }}
 {{- end }}

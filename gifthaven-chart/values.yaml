@@ -1,0 +1,23 @@
+aiDeployment:
+  myapp:
+    image:
+      repository: parthsingh2496/giftastic-wishlist-wonder-gift-ai
+      tag: latest
+    resources:
+      limits:
+        cpu: 300m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  nodeSelector: {}
+  replicas: 1
+  tolerations: []
+  topologySpreadConstraints: []
+aiService:
+  ports:
+  - port: 5173
+    protocol: TCP
+    targetPort: 5173
+  type: ClusterIP
+kubernetesClusterDomain: cluster.local

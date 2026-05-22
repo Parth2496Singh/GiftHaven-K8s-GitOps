@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "gifthaven-chart.fullname" . }}-ai-service
+  labels:
+  {{- include "gifthaven-chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.aiService.type }}
+  selector:
+    app: gift-ai
+    {{- include "gifthaven-chart.selectorLabels" . | nindent 4 }}
+  ports:
+  {{- .Values.aiService.ports | toYaml | nindent 2 }}
