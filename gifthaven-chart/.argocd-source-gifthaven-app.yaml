@@ -1,0 +1,8 @@
+helm:
+  parameters:
+  - name: image.name
+    value: parthsingh2496/gifthaven
+    forcestring: true
+  - name: image.tag
+    value: v1.0.61
+    forcestring: true
