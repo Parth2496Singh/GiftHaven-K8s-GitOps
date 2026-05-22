@@ -5,13 +5,14 @@ metadata:
   labels:
   {{- include "gifthaven-chart.labels" . | nindent 4 }}
 spec:
+  ingressClassName: nginx
   rules:
   - host: localhost
     http:
       paths:
       - backend:
           service:
-            name: '{{ include "gifthaven-chart.fullname" . }}-ai-service'
+            name: {{ include "gifthaven-chart.fullname" . }}-ai-service
             port:
               number: 5173
         path: /
