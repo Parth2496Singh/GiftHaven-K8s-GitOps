@@ -10,8 +10,8 @@ spec:
     - list:
         elements:
           - app: gifthaven
-            path: helm/gifthaven-helm    # path in repo for this app
-            targetNamespace: lost-and-found
+            path: gifthaven-chart    # path in repo for this app
+            targetNamespace: gift-ai
           
           
   # Template that will be used to generate individual Application CRs
@@ -29,7 +29,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/Parth2496Singh/Lost-and-Found-GitOps.git
+        repoURL: https://github.com/Parth2496Singh/GiftHaven-K8s-GitOps.git
         targetRevision: main
         path: '{{path}}'                # resolved from element
       destination:
